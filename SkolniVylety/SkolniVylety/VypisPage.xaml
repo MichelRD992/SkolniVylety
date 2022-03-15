@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkolniVylety.VypisPage">
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <ScrollView>
+            <ListView x:Name="lSeznam" ItemTapped="LSeznam_ItemTapped"/>
+            </ScrollView>
+            <Button x:Name="bNovy" Text="+" FontSize="Medium" FontAttributes="Bold"
+                    WidthRequest="50" HeightRequest="50" CornerRadius="25"
+                    BackgroundColor="Navy" TextColor="White" Margin="20"
+                    HorizontalOptions="End" VerticalOptions="End" Clicked="BNovy_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

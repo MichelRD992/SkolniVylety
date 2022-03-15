@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skolnivylety="clr-namespace:SkolniVylety"
+             x:Class="SkolniVylety.DetailPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="20">
+                <StackLayout x:Name="lObsah"/>
+                <FlexLayout VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
+                    <Button Text="Upravit" x:Name="bUpravit" Clicked="bUpravit_Clicked"/>
+                    <Button Text="Smazat" x:Name="bSmazat" Clicked="BSmazat_Clicked"/>
+                    <Button Text="Přidat žáka" x:Name="bNovyZak" Clicked="BNovyZak_Clicked" IsVisible="False"/>
+                    <Button Text="Přidat činnost" x:Name="bNovaCinnost" Clicked="BNovaCinnost_Clicked" IsVisible="False"/>
+                    <Button Text="Zpět" x:Name="bZpet" Clicked="bZpet_Clicked"/>
+                </FlexLayout>
+                <StackLayout x:Name="sLayout" IsVisible="False">
+                    <FlexLayout>
+                        <Button Text="Zobrazit žáky" x:Name="bZaci" Clicked="BZaci_Clicked" IsVisible="False"/>
+                        <Button Text="Zobrazit naplánované výlety" x:Name="bVylety" Clicked="BVylety_Clicked" IsVisible="False"/>
+                        <Button Text="Zobrazit program" x:Name="bProgram" Clicked="BProgram_Clicked" IsVisible="False"/>
+                    </FlexLayout>
+                    <Label x:Name="lNadpis"/>
+                    <ListView x:Name="lZaci" ItemTapped="LZaci_ItemTapped"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
