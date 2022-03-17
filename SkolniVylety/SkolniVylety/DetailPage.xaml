@@ -6,7 +6,8 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="20">
-                <StackLayout x:Name="lObsah"/>
+                <StackLayout x:Name="lReference" IsVisible="false"/>
+                <skolnivylety:DetailForm x:Name="dForm"/>
                 <FlexLayout VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
                     <Button Text="Upravit" x:Name="bUpravit" Clicked="bUpravit_Clicked"/>
                     <Button Text="Smazat" x:Name="bSmazat" Clicked="BSmazat_Clicked"/>

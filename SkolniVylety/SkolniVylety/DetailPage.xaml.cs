@@ -13,12 +13,26 @@ namespace SkolniVylety
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DetailPage : ContentPage
     {
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if(typ == typeof(Zajezd) && lReference.IsVisible == false)
+            {
+                Zajezd zajezd = objekt as Zajezd;
+                List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == id).ToListAsync();
+                List<Vylet> vylet = await DBUtils.DB.Table<Vylet>().Where(x => x.ID == zajezd.Vylet).ToListAsync();
+                lReference.IsVisible = true;
+                lReference.Children.Add(new Label() { Text = "Třída:" });
+                lReference.Children.Add(new Label() { Text = trida[0].Nazev, Margin = new Thickness(0, 2, 0, 10) });
+                lReference.Children.Add(new Label() { Text = "Výlet:" });
+                lReference.Children.Add(new Label() { Text = vylet[0].Nazev, Margin = new Thickness(0, 2, 0, 10) });
+            }
+        }
         public DetailPage(IData obj, Type Trida)
         {
             InitializeComponent();
             Title = obj.ToString();
-            SetDataAsync(obj);
-            lObsah = Form;
+            dForm.SetData(obj);
             if (Trida == typeof(Trida) || Trida == typeof(Vylet))
                 sLayout.IsVisible = true;
             if (Trida == typeof(Vylet))
@@ -32,9 +46,6 @@ namespace SkolniVylety
                 bZaci.IsVisible = true;
                 bVylety.IsVisible = true;
             }
-            id = obj.ID;
-            typ = Trida;
-            objekt = obj;
         }
 
         public IData objekt { get; set; }
@@ -44,8 +55,6 @@ namespace SkolniVylety
         public Type typ { get; set; }
 
         public Type Target { get; set; }
-
-        public StackLayout Form { get; set; }
 
         private async void BZaci_Clicked(object sender, EventArgs e)
         {
@@ -102,45 +111,6 @@ namespace SkolniVylety
         private void bZpet_Clicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
-        }
-
-        public async void SetDataAsync(IData record)
-        {
-            var typ = record.GetType();
-            bool reference = false;
-            foreach (var prop in typ.GetProperties())
-            {
-                var val = prop.GetValue(record);
-                if (prop.IsDefined(typeof(SkrytVeFormulariAttribute)))
-                    continue;
-                View editor = null;
-                if (prop.PropertyType == typeof(string) || prop.PropertyType == typeof(int))
-                    editor = new Label() { Text = (string)val };
-                else if (prop.PropertyType == typeof(int?) && prop.IsDefined(typeof(ReferenceAttribute)))
-                {
-                    string nazev;
-                    if (!reference)
-                    {
-                        List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == (int)val).ToListAsync();
-                        nazev = trida[0].Nazev;
-                        reference = true;
-                    }
-                    else
-                    {
-                        List<Vylet> vylet = await DBUtils.DB.Table<Vylet>().Where(x => x.ID == (int)val).ToListAsync();
-                        nazev = vylet[0].Nazev;
-                    }
-                    editor = new Label() { Text = nazev };
-                }
-                else if (prop.PropertyType == typeof(DateTime))
-                    editor = new Label() { Text = DateTime.Parse((string)val).ToString("d.m.yyyy") };
-                if (editor != null)
-                {
-                    Form.Children.Add(new Label() { Text = DBUtils.Popisek(prop) + ":" });
-                    editor.Margin = new Thickness(0, 2, 0, 10);
-                    Form.Children.Add(editor);
-                }
-            }
         }
     }
 }

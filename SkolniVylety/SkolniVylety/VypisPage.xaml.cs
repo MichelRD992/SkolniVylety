@@ -32,9 +32,10 @@ namespace SkolniVylety
             Navigation.PushAsync(new EditPage(obj, Trida));
         }
 
-        private void LSeznam_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void LSeznam_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Navigation.PushAsync(new DetailPage(e.Item as IData, Trida));
+            IData obj = e.Item as IData;
+            await Navigation.PushAsync(new DetailPage(e.Item as IData, Trida) { id = obj.ID, typ = obj.GetType(), objekt = obj });
         }
     }
 }
