@@ -11,6 +11,7 @@ namespace SkolniVylety
     {
         public void SetData(IData record)
         {
+            Children.Clear();
             rec = record;
             var typ = record.GetType();
             foreach (var prop in typ.GetProperties())

@@ -16,7 +16,9 @@ namespace SkolniVylety
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if(typ == typeof(Zajezd) && lReference.IsVisible == false)
+            dForm.SetData(objekt);
+            lReference.Children.Clear();
+            if(typ == typeof(Zajezd))
             {
                 Zajezd zajezd = objekt as Zajezd;
                 List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == id).ToListAsync();
@@ -32,7 +34,6 @@ namespace SkolniVylety
         {
             InitializeComponent();
             Title = obj.ToString();
-            dForm.SetData(obj);
             if (Trida == typeof(Trida) || Trida == typeof(Vylet))
                 sLayout.IsVisible = true;
             if (Trida == typeof(Vylet))
