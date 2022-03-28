@@ -46,6 +46,9 @@ namespace SkolniVylety
                 bNovyZak.IsVisible = true;
                 bZaci.IsVisible = true;
                 bVylety.IsVisible = true;
+            } else if (Trida == typeof(Zajezd))
+            {
+                bGPS.IsVisible = true;
             }
         }
 
@@ -112,6 +115,11 @@ namespace SkolniVylety
         private void bZpet_Clicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
+        }
+
+        private void bGPS_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new GPSPage(objekt.ToString()) { id = id });
         }
     }
 }

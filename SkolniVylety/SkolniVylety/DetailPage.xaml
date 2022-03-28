@@ -14,6 +14,7 @@
                     <Button Text="Přidat žáka" x:Name="bNovyZak" Clicked="BNovyZak_Clicked" IsVisible="False"/>
                     <Button Text="Přidat činnost" x:Name="bNovaCinnost" Clicked="BNovaCinnost_Clicked" IsVisible="False"/>
                     <Button Text="Zpět" x:Name="bZpet" Clicked="bZpet_Clicked"/>
+                    <Button Text="GPS záznamy" x:Name="bGPS" Clicked="bGPS_Clicked" IsVisible="false"/>
                 </FlexLayout>
                 <StackLayout x:Name="sLayout" IsVisible="False">
                     <FlexLayout>
