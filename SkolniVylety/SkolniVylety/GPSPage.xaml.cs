@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,6 +12,11 @@ namespace SkolniVylety
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GPSPage : ContentPage
     {
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            Statistika();
+        }
         public GPSPage(string zajezd)
         {
             InitializeComponent();
@@ -30,11 +35,16 @@ namespace SkolniVylety
                 PridejZaznam(data[0], null, null);
                 if(data.Count > 1)
                 {
-                    float rychlost;
-                    float rychlost2;
+                    double rychlost = 1;
+                    double rychlost2;
                     for(int i = 1; i < data.Count; i++)
                     {
-
+                        rychlost2 = Location.CalculateDistance(new Location(data[i - 1].Latitude, data[i - 1].Longitude), new Location(data[i].Latitude, data[i].Longitude), DistanceUnits.Kilometers)/ data[i].Cas.Subtract(data[i - 1].Cas).TotalHours;
+                        if (i == 1)
+                            PridejZaznam(data[i], (float?)rychlost2, null);
+                        else
+                            PridejZaznam(data[i], (float?)rychlost2, (float?)((100 / rychlost) * rychlost2) - 100);
+                        rychlost = rychlost2;
                     }
                 }
             }
@@ -42,30 +52,30 @@ namespace SkolniVylety
 
         public void PridejZaznam(Zaznam zaznam, float? rychlost, float? zmena)
         {
-            StackLayout sl = new StackLayout() { HorizontalOptions = LayoutOptions.FillAndExpand, Orientation = StackOrientation.Vertical };
-            sl.Children.Add(new Label() { Text = zaznam.Latitude.ToString("N3") + "; " + zaznam.Longitude.ToString("N3") });
-            sl.Children.Add(new Label() { Text = zaznam.Cas.ToString("HH:mm:ss"), HorizontalTextAlignment = TextAlignment.End });
-            StackLayout sll = new StackLayout() { HorizontalOptions = LayoutOptions.FillAndExpand, Orientation = StackOrientation.Vertical };
+            Grid gg = new Grid
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = GridLength.Star },
+                    new ColumnDefinition { Width = GridLength.Star },
+                    new ColumnDefinition { Width = GridLength.Star }
+                }
+            };
+            gg.Children.Add(new Label() { Text = zaznam.Latitude.ToString("N3") + "; " + zaznam.Longitude.ToString("N3"), FontAttributes = FontAttributes.Bold }, 0, 0);
+            gg.Children.Add(new Label() { Text = zaznam.Cas.ToString("HH:mm:ss"), HorizontalTextAlignment = TextAlignment.End }, 2, 0);
+            if (rychlost != null)
+                gg.Children.Add(new Label() { Text = rychlost.ToString() + " km/h", HorizontalTextAlignment = TextAlignment.End }, 2, 1);
             if(zmena != null)
             {
                 string sipka = (zmena < 0) ? "\u2198" : "\u2197";
-                Color pozadi = (zmena < 0) ? Color.LightCoral : Color.LightGreen;
                 Color pismo = (zmena < 0) ? Color.Red : Color.Green;
-                sl.BackgroundColor = pozadi;
-                sll.BackgroundColor = pozadi;
-                sll.Children.Add(new Label() { Text = sipka, TextColor = pismo });
-                sll.Children.Add(new Label() { Text = zmena.ToString() + " %", TextColor = pismo });
+                gg.BackgroundColor = (zmena < 0) ? Color.LightCoral : Color.LightGreen;
+                gg.Children.Add(new Label() { Text = sipka, TextColor = pismo, FontAttributes = FontAttributes.Bold, VerticalTextAlignment = TextAlignment.Start }, 0, 1);
+                gg.Children.Add(new Label() { Text = zmena.ToString() + " %", TextColor = pismo, HorizontalTextAlignment = TextAlignment.Center }, 1, 1);
             } else
-            {
-                sl.BackgroundColor = Color.LightGray;
-                sll.BackgroundColor = Color.LightGray;
-            }
-            sSeznam.Children.Add(sl);
-            if (rychlost != null)
-            {
-                sll.Children.Add(new Label() { Text = rychlost.ToString() });
-                sSeznam.Children.Add(sll);
-            }
+                gg.BackgroundColor = Color.LightGray;
+            sSeznam.Children.Add(gg);
         }
 
         private async void bPridat_Clicked(object sender, EventArgs e)
@@ -80,5 +90,11 @@ namespace SkolniVylety
         }
 
         Random random = new Random();
+
+        private async void bSmazat_Clicked(object sender, EventArgs e)
+        {
+            await DBUtils.DB.QueryAsync<Zaznam>("delete from Zaznamy where Zajezd = ?", id);
+            Statistika();
+        }
     }
 }

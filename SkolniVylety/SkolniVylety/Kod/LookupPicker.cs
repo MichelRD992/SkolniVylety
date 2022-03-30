@@ -11,9 +11,6 @@ namespace SkolniVylety
     {
         private bool itemsSourceChanging = false;
 
-        /// <summary>
-        /// Name of the property where the key (ID) is stored and which will be get and set over <see cref="ID"/> property
-        /// </summary>
         public string ItemIdProperty { get; set; } = "ID";
 
         #region ID
@@ -27,9 +24,6 @@ namespace SkolniVylety
                 ((LookupPicker)bindable).SetSelectedItemByID();
         }
 
-        /// <summary>
-        /// ID (bindable property) - key (with property name specified in <see cref="ItemIdProperty"/>) of selected item
-        /// </summary>
         public int? ID
         {
             get { return (int?)GetValue(IDProperty); }

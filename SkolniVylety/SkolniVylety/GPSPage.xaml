@@ -4,11 +4,13 @@
              x:Class="SkolniVylety.GPSPage">
     <ContentPage.Content>
         <StackLayout Margin="20">
-            <ScrollView>
+            <ScrollView Orientation="Both">
                 <StackLayout x:Name="sSeznam"/>
             </ScrollView>
-            <Button x:Name="bPridat" Text="Přidat záznam" Margin="20"
-                    HorizontalOptions="End" VerticalOptions="End" Clicked="bPridat_Clicked"/>
+            <FlexLayout>
+                <Button x:Name="bPridat" Text="Přidat záznam" Clicked="bPridat_Clicked"/>
+                <Button x:Name="bSmazat" Text="Vymazat záznamy" Clicked="bSmazat_Clicked"/>
+            </FlexLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

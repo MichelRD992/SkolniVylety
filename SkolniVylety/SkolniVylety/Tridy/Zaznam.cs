@@ -21,7 +21,7 @@ namespace SkolniVylety
         [Popisek("Čas")]
         public DateTime Cas { get; set; }
 
-        [Reference(typeof(Polozka)), SkrytVeFormulari]
+        [Reference(typeof(Zajezd)), SkrytVeFormulari]
         public int Zajezd { get; set; }
     }
 }

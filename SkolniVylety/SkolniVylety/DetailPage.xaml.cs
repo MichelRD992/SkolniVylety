@@ -21,7 +21,7 @@ namespace SkolniVylety
             if(typ == typeof(Zajezd))
             {
                 Zajezd zajezd = objekt as Zajezd;
-                List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == id).ToListAsync();
+                List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == zajezd.Trida).ToListAsync();
                 List<Vylet> vylet = await DBUtils.DB.Table<Vylet>().Where(x => x.ID == zajezd.Vylet).ToListAsync();
                 lReference.IsVisible = true;
                 lReference.Children.Add(new Label() { Text = "Třída:" });
