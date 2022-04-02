@@ -86,20 +86,22 @@ namespace SkolniVylety
 
         private async void bPridat_Clicked(object sender, EventArgs e)
         {
-            Position pozice = GPSsensor.Pozice().Result;
-            if (pozice == null)
-                lChyba.IsVisible = true;
-            else
+            var pozice = GPSsensor.Pozice().Result;
+            if (pozice.GetType() == typeof(Location))
             {
-                lChyba.IsVisible = false;
+                Location pos = pozice as Location;
                 Zaznam zaznam = new Zaznam();
-                zaznam.Latitude = pozice.Latitude;
-                zaznam.Longitude = pozice.Longitude;
+                zaznam.Latitude = pos.Latitude;
+                zaznam.Longitude = pos.Longitude;
                 zaznam.Cas = DateTime.Now;
                 zaznam.Zajezd = id;
                 await DBUtils.DB.InsertAsync(zaznam);
                 Statistika();
             }
+            else if (pozice.GetType() == typeof(string))
+                sSeznam.Children.Add(new Label() { Text = pozice.ToString(), LineBreakMode = LineBreakMode.WordWrap });
+            else
+                sSeznam.Children.Add(new Label() { Text = "Něco se pokazilo", LineBreakMode = LineBreakMode.WordWrap });
         }
 
         private async void bSmazat_Clicked(object sender, EventArgs e)
