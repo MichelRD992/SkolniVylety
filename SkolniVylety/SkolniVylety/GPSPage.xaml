@@ -5,7 +5,9 @@
     <ContentPage.Content>
         <StackLayout Margin="20">
             <ScrollView Orientation="Both">
-                <StackLayout x:Name="sSeznam"/>
+                <StackLayout x:Name="sSeznam">
+                    <Label x:Name="lChyba" IsVisible="False" Text="Něco se pokazilo. Zkontrolujte, jestli máte zapnuté určování polohy a zkuzte to znovu." LineBreakMode="WordWrap"/>
+                </StackLayout>
             </ScrollView>
             <FlexLayout>
                 <Button x:Name="bPridat" Text="Přidat záznam" Clicked="bPridat_Clicked"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.Geolocator.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,7 +59,7 @@ namespace SkolniVylety
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 ColumnDefinitions =
                 {
-                    new ColumnDefinition { Width = GridLength.Star },
+                    new ColumnDefinition { Width = GridLength.Auto },
                     new ColumnDefinition { Width = GridLength.Star },
                     new ColumnDefinition { Width = GridLength.Star }
                 }
@@ -85,16 +86,21 @@ namespace SkolniVylety
 
         private async void bPridat_Clicked(object sender, EventArgs e)
         {
-            Zaznam zaznam = new Zaznam();
-            zaznam.Latitude = random.NextDouble();
-            zaznam.Longitude = random.NextDouble();
-            zaznam.Cas = DateTime.Now;
-            zaznam.Zajezd = id;
-            await DBUtils.DB.InsertAsync(zaznam);
-            Statistika();
+            Position pozice = GPSsensor.Pozice().Result;
+            if (pozice == null)
+                lChyba.IsVisible = true;
+            else
+            {
+                lChyba.IsVisible = false;
+                Zaznam zaznam = new Zaznam();
+                zaznam.Latitude = pozice.Latitude;
+                zaznam.Longitude = pozice.Longitude;
+                zaznam.Cas = DateTime.Now;
+                zaznam.Zajezd = id;
+                await DBUtils.DB.InsertAsync(zaznam);
+                Statistika();
+            }
         }
-
-        Random random = new Random();
 
         private async void bSmazat_Clicked(object sender, EventArgs e)
         {
