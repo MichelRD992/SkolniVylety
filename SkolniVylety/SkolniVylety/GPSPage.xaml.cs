@@ -12,7 +12,7 @@ namespace SkolniVylety
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GPSPage : ContentPage
     {
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             Statistika();
