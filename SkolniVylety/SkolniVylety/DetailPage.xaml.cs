@@ -16,9 +16,7 @@ namespace SkolniVylety
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            dForm.SetData(objekt);
-            lReference.Children.Clear();
-            if(typ == typeof(Zajezd))
+            if (typ == typeof(Zajezd))
             {
                 Zajezd zajezd = objekt as Zajezd;
                 List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == zajezd.Trida).ToListAsync();
@@ -29,6 +27,8 @@ namespace SkolniVylety
                 lReference.Children.Add(new Label() { Text = "Výlet:" });
                 lReference.Children.Add(new Label() { Text = vylet[0].Nazev, Margin = new Thickness(0, 2, 0, 10) });
             }
+            dForm.SetData(objekt);
+            lReference.Children.Clear();
         }
         public DetailPage(IData obj, Type Trida)
         {
