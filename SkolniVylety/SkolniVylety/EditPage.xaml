@@ -7,6 +7,7 @@
         <ScrollView>
             <StackLayout Margin="20">
                 <skolnivylety:DataForm x:Name="dForm"/>
+                <Label x:Name="lChyba" Text="Zvolte prosím třídu a výlet" IsVisible="False"/>
                 <FlexLayout VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
                     <Button Text="Uložit" x:Name="bUlozit" Clicked="BUlozit_Clicked"/>
                     <Button Text="Zrušit" x:Name="bZrusit" Clicked="BZrusit_Clicked"/>

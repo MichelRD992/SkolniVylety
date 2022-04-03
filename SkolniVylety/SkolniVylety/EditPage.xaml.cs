@@ -21,6 +21,12 @@ namespace SkolniVylety
         private async void BUlozit_Clicked(object sender, EventArgs e)
         {
             var obj = dForm.GetData();
+            if(obj.GetType() == typeof(Zajezd))
+                if(((Zajezd)obj).Trida == null || ((Zajezd)obj).Vylet == null)
+                {
+                    lChyba.IsVisible = true;
+                    return;
+                }
             if (obj.ID == 0)
                 await DBUtils.DB.InsertAsync(obj);
             else
