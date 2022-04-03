@@ -18,6 +18,7 @@ namespace SkolniVylety
             base.OnAppearing();
             if (typ == typeof(Zajezd))
             {
+                lReference.Children.Clear();
                 Zajezd zajezd = objekt as Zajezd;
                 List<Trida> trida = await DBUtils.DB.Table<Trida>().Where(x => x.ID == zajezd.Trida).ToListAsync();
                 List<Vylet> vylet = await DBUtils.DB.Table<Vylet>().Where(x => x.ID == zajezd.Vylet).ToListAsync();
@@ -28,7 +29,6 @@ namespace SkolniVylety
                 lReference.Children.Add(new Label() { Text = vylet[0].Nazev, Margin = new Thickness(0, 2, 0, 10) });
             }
             dForm.SetData(objekt);
-            lReference.Children.Clear();
         }
         public DetailPage(IData obj, Type Trida)
         {

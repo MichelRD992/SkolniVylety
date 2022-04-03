@@ -21,7 +21,7 @@ namespace SkolniVylety
         public int Trida { get; set; }
 
         [Popisek("Rok narození")]
-        public DateTime Narozen { get; set; }
+        public DateTime Narozen { get; set; } = DateTime.Now.AddYears(-13);
 
         public override string ToString() => $"{Jmeno} {Prijmeni}";
     }

@@ -7,9 +7,6 @@
         <Button Text="Třídy" x:Name="bTrida" Clicked="BTrida_Clicked"/>
         <Button Text="Programy výletů" x:Name="bVylet" Clicked="BVylet_Clicked"/>
         <Button Text="Plánované výlety" x:Name="bZajezd" Clicked="BZajezd_Clicked"/>
-        <StackLayout Orientation="Horizontal" x:Name="sLayout">
-            <Label x:Name="lZajezdy"/>
-        </StackLayout>
     </StackLayout>
 
 </ContentPage>

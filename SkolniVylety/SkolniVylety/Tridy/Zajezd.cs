@@ -18,7 +18,7 @@ namespace SkolniVylety
         public int? Vylet { get; set; }
 
         [Popisek("Datum konání")]
-        public DateTime Datum { get; set; }
+        public DateTime Datum { get; set; } = DateTime.Now;
 
         [Popisek("Učitelský dozor")]
         public string Ucitel { get; set; }
