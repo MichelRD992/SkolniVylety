@@ -76,7 +76,8 @@ namespace SkolniVylety
 
         private void LZaci_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Navigation.PushAsync(new DetailPage(e.Item as IData, Target));
+            IData obj = e.Item as IData;
+            Navigation.PushAsync(new DetailPage(obj, Target) { id = obj.ID, typ = obj.GetType(), objekt = obj });
         }
 
         private async void BSmazat_Clicked(object sender, EventArgs e)
